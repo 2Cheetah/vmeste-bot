@@ -1,5 +1,6 @@
 {
   "imports": {
-    "granny": "https://deno.land/x/grammy/mod.ts"
-  }
+    "grammy": "https://deno.land/x/grammy@v1.38.3/mod.ts"
+  },
+  "lock": false
 }

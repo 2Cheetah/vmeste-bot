@@ -4,7 +4,7 @@
 
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { Bot, webhookCallback } from 'https://deno.land/x/grammy/mod.ts';
+import { Bot, webhookCallback } from "grammy";
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN") || "");
 
@@ -13,8 +13,6 @@ bot.command("start", (ctx) => ctx.reply("Welcome! Up and running."));
 bot.command("ping", (ctx) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`));
 
 const handleUpdate = webhookCallback(bot, "std/http");
-
-console.log("Hello from Functions!");
 
 Deno.serve(async (req) => {
   try {
