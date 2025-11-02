@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "granny": "https://deno.land/x/grammy/mod.ts"
+  }
+}
