@@ -3,8 +3,8 @@
 // This enables autocomplete, go to definition, etc.
 
 // Setup type definitions for built-in Supabase Runtime APIs
-import 'edge-runtime';
-import { Bot, webhookCallback } from 'grammy';
+import "edge-runtime";
+import { Bot, webhookCallback } from "grammy";
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN") || "");
 
@@ -16,17 +16,17 @@ const handleUpdate = webhookCallback(bot, "std/http");
 
 Deno.serve(async (req: Request) => {
   try {
-    const url = new URL(req.url)
+    const url = new URL(req.url);
     if (url.searchParams.get("secret") !== Deno.env.get("FUNCTION_SECRET")) {
-      return new Response("not allowed", { status: 405 })
+      return new Response("not allowed", { status: 405 });
     }
 
     return await handleUpdate(req);
   } catch (err) {
-    console.error(err)
-    return new Response('Internal Server Error', {
+    console.error(err);
+    return new Response("Internal Server Error", {
       status: 500,
-    })
+    });
   }
 });
 
