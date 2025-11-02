@@ -11,6 +11,8 @@ const handleUpdate = webhookCallback(bot, "std/http");
 
 Deno.serve(async (req: Request) => {
   try {
+    console.debug(req);
+
     const url = new URL(req.url);
     if (url.searchParams.get("secret") !== Deno.env.get("FUNCTION_SECRET")) {
       return new Response("not allowed", {

@@ -1,10 +1,7 @@
 .PHONY: start-supabase serve-webhook test-webhook
 .DEFAULT_GOAL=serve-webhook
 
-start-supabase:
-	supabase start
-
-serve-webhook: start-supabase
+serve-webhook:
 	supabase functions serve webhook --no-verify-jwt --env-file=supabase/functions/.env
 
 test-webhook:
