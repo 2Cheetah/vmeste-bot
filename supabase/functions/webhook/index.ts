@@ -3,7 +3,14 @@ import { Bot, webhookCallback } from "grammy";
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN")!);
 
-bot.command("start", (ctx) => ctx.reply(`Welcome, ${ctx.chatMember}! Up and running.`));
+bot.command("start", (ctx) => ctx.reply(`Welcome! The bot is up and running.`));
+
+bot.command("whoami", async (ctx) => {
+  const username = ctx.message?.from.username;
+  await ctx.reply(
+    `Your username is ${username}`,
+  );
+});
 
 bot.command("ping", (ctx) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`));
 
