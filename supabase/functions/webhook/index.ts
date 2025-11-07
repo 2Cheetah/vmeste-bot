@@ -1,5 +1,5 @@
 import "edge-runtime";
-import { Bot, webhookCallback } from "grammy";
+import { Bot, Context, webhookCallback } from "grammy";
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN")!);
 
@@ -14,6 +14,12 @@ bot.command("whoami", async (ctx) => {
 
 bot.command("ping", (ctx) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`));
 
+bot.command("buy-season-ticket", buyHandler);
+
+async function buyHandler(ctx: Context) {
+  return await ctx.reply("You successfully bought a season ticket!");
+}
+
 const handleUpdate = webhookCallback(bot, "std/http");
 
 Deno.serve(async (req: Request) => {
@@ -23,13 +29,13 @@ Deno.serve(async (req: Request) => {
         status: 405,
       });
     }
-    
+
     const url = new URL(req.url);
     if (url.searchParams.get("secret") !== Deno.env.get("FUNCTION_SECRET")) {
       return new Response("not allowed", {
         status: 405,
-      });  
-    }  
+      });
+    }
 
     return await handleUpdate(req);
   } catch (err) {
