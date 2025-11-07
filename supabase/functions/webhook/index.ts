@@ -14,7 +14,7 @@ bot.command("whoami", async (ctx) => {
 
 bot.command("ping", (ctx) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`));
 
-bot.command("buy-season-ticket", buyHandler);
+bot.command("buy", buyHandler);
 
 async function buyHandler(ctx: Context) {
   return await ctx.reply("You successfully bought a season ticket!");
