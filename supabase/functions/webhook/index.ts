@@ -51,9 +51,11 @@ async function buyHandler(ctx: Context) {
     const t = await getSeasonTicket(u);
     if (t) {
       const lessonsLeft = t.lessons_total - t.lessons_used;
-      return ctx.reply(
-        `You still have a valid season ticket with ${lessonsLeft} lessons left.`,
-      );
+      if (lessonsLeft > 0) {
+        return ctx.reply(
+          `You still have a valid season ticket with ${lessonsLeft} lessons left.`,
+        );
+      }
     }
 
     await buyTicket(u);
