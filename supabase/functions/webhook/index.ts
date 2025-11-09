@@ -54,7 +54,10 @@ async function buyHandler(ctx: Context) {
       ctx.reply("UserId not found in DB");
     }
   } catch (err) {
-    ctx.reply(`Error occured while processing your request. Error: ${err}`);
+    console.error(err);
+    ctx.reply(
+      `Error occured while processing your request.`,
+    );
   }
 
   // Create a record in DB
