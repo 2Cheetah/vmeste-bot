@@ -42,8 +42,7 @@ async function buyHandler(ctx: Context) {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("id", userId)
-      .single();
+      .eq("id", userId);
 
     if (error) {
       throw error;
