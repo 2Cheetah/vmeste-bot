@@ -37,6 +37,8 @@ bot.command(
 
 bot.command("buy", buyHandler);
 
+bot.command("lessonsLeft", lessonsLeftHandler);
+
 async function buyHandler(ctx: Context) {
   try {
     const u: User = ctx.message?.from!;
@@ -64,6 +66,38 @@ async function buyHandler(ctx: Context) {
 
   // Create a record in DB
   return await ctx.reply("You successfully bought a season ticket!");
+}
+
+async function lessonsLeftHandler(ctx: Context) {
+  try {
+    const u: User = ctx.message?.from!;
+
+    if (!await isUserExist(u.id)) {
+      ctx.reply("User not found in DB. Adding...");
+      await registerUser(u);
+    }
+
+    const t = await getSeasonTicket(u);
+    if (!t) {
+      return ctx.reply(
+        "You don't have any season ticket. Why not buy one now with /buy?",
+      );
+    }
+
+    const lessonsLeft = t.lessons_total - t.lessons_used;
+    if (lessonsLeft == 0) {
+      return ctx.reply(
+        "Your last season ticket has been fully claimed. Why not buy one now with /buy?",
+      );
+    }
+
+    return ctx.reply(
+      `You still have a valid season ticket with ${lessonsLeft} lessons left.`,
+    );
+  } catch (err) {
+    console.error(err);
+    return ctx.reply("Something went wrong.");
+  }
 }
 
 async function isUserExist(userId: number) {
