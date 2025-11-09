@@ -101,7 +101,7 @@ async function getSeasonTicket(u: User) {
   const { data, error } = await supabase
     .from("tickets")
     .select("*")
-    .eq("userId", u.id);
+    .eq("user_id", u.id);
 
   if (error) {
     throw error;
