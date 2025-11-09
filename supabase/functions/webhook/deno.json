@@ -1,6 +1,7 @@
 {
   "imports": {
     "grammy": "https://deno.land/x/grammy@v1.38.3/mod.ts",
+    "grammy_types": "https://deno.land/x/grammy_types@v3.22.2/manage.ts",
     "edge-runtime": "jsr:@supabase/functions-js/edge-runtime.d.ts",
     "supabase": "npm:@supabase/supabase-js@2"
   },
