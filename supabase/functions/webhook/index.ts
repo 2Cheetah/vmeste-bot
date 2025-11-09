@@ -137,7 +137,8 @@ async function getSeasonTicket(u: User) {
   const { data, error } = await supabase
     .from("tickets")
     .select("*")
-    .eq("user_id", u.id);
+    .eq("user_id", u.id)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;
