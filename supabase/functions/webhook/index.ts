@@ -2,9 +2,16 @@ import "edge-runtime";
 import { createClient } from "supabase";
 import { Bot, Context, webhookCallback } from "grammy";
 
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error("Missing mandatory envs");
+}
+
 const supabase = createClient(
-  Deno.env.get("SUPABASE_URL") ?? "",
-  Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "",
+  SUPABASE_URL!,
+  SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN")!);
