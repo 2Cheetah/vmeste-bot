@@ -1,22 +1,56 @@
 import "edge-runtime";
+import { createClient } from "supabase";
 import { Bot, Context, webhookCallback } from "grammy";
+
+const supabase = createClient(
+  Deno.env.get("SUPABASE_URL") ?? "",
+  Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "",
+);
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN")!);
 
-bot.command("start", (ctx) => ctx.reply(`Welcome! The bot is up and running.`));
+bot.command(
+  "start",
+  (ctx: Context) => ctx.reply(`Welcome! The bot is up and running.`),
+);
 
-bot.command("whoami", async (ctx) => {
+bot.command("whoami", async (ctx: Context) => {
   const username = ctx.message?.from.username;
   await ctx.reply(
     `Your username is ${username}`,
   );
 });
 
-bot.command("ping", (ctx) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`));
+bot.command(
+  "ping",
+  (ctx: Context) => ctx.reply(`Pong! ${new Date()} ${Date.now()}`),
+);
 
 bot.command("buy", buyHandler);
 
 async function buyHandler(ctx: Context) {
+  // Check for existing season tickets
+  const userId = ctx.message?.from.id;
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      // Register the user
+      ctx.reply("UserId not found in DB");
+    }
+  } catch (err) {
+    ctx.reply(`Error occured while processing your request. Error: ${err}`);
+  }
+
+  // Create a record in DB
   return await ctx.reply("You successfully bought a season ticket!");
 }
 
